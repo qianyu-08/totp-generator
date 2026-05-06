@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOTPジェネレーター</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --panel: #121a33;
+      --panel-2: #17213f;
+      --text: #e8eefc;
+      --muted: #97a6c6;
+      --accent: #7aa2ff;
+      --danger: #ff7a90;
+      --border: rgba(255,255,255,.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(1200px 800px at 20% 0%, #182447 0%, var(--bg) 50%, #070a14 100%);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: min(760px, 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+      overflow: hidden;
+    }
+    header {
+      padding: 24px 24px 0;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 36px);
+      letter-spacing: .02em;
+    }
+    p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .content {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      padding: 24px;
+    }
+    @media (max-width: 720px) {
+      .content { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    input, button {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(8,12,24,.65);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font: inherit;
+      outline: none;
+    }
+    input:focus {
+      border-color: rgba(122,162,255,.65);
+      box-shadow: 0 0 0 4px rgba(122,162,255,.14);
+    }
+    .row {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    button {
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(122,162,255,.22), rgba(122,162,255,.10));
+      transition: transform .08s ease, border-color .15s ease;
+    }
+    button:hover { border-color: rgba(122,162,255,.55); }
+    button:active { transform: translateY(1px); }
+    .primary {
+      background: linear-gradient(180deg, rgba(122,162,255,.35), rgba(122,162,255,.16));
+    }
+    .code-box {
+      text-align: center;
+      padding: 24px 16px;
+      background: linear-gradient(180deg, rgba(122,162,255,.12), rgba(255,255,255,.02));
+      border: 1px solid rgba(122,162,255,.25);
+      border-radius: 20px;
+    }
+    .code {
+      font-size: clamp(36px, 8vw, 58px);
+      font-weight: 800;
+      letter-spacing: .18em;
+      margin: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .meta {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .bar-wrap {
+      margin-top: 14px;
+      height: 10px;
+      background: rgba(255,255,255,.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #7aa2ff, #8fe3ff);
+      transition: width .2s linear;
+    }
+    .status {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      min-height: 1.4em;
+    }
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    code.inline {
+      padding: .15rem .4rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <header>
+      <h1>TOTPジェネレーター</h1>
+      <p>Base32の共有シークレットから、30秒ごとに変わる6桁コードを生成します。人間が紙に書いた秘密情報を、さらにブラウザに入れるという微妙な儀式つきです。</p>
+    </header>
+
+    <section class="content">
+      <div class="panel">
+        <div class="row">
+          <div>
+            <label for="secret">Base32シークレット</label>
+            <input id="secret" type="text" placeholder="例: JBSWY3DPEHPK3PXP" autocomplete="off" spellcheck="false" />
+            <div class="small" style="margin-top:8px;">空白やハイフンは自動で無視します。</div>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div>
+            <label for="digits">桁数</label>
+            <input id="digits" type="number" min="6" max="10" value="6" />
+          </div>
+          <div>
+            <label for="period">更新間隔(秒)</label>
+            <input id="period" type="number" min="15" max="120" value="30" />
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:14px;">
+          <button class="primary" id="generateBtn">コードを更新</button>
+          <button id="copyBtn">コードをコピー</button>
+        </div>
+
+        <div class="status" id="status"></div>
+      </div>
+
+      <div class="panel">
+        <div class="code-box">
+          <p class="code" id="code">------</p>
+          <div class="meta" id="meta">シークレットを入力してください</div>
+          <div class="bar-wrap" aria-hidden="true">
+            <div class="bar" id="bar"></div>
+          </div>
+          <div class="meta" id="timer">--</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const secretEl = document.getElementById('secret');
+    const digitsEl = document.getElementById('digits');
+    const periodEl = document.getElementById('period');
+    const codeEl = document.getElementById('code');
+    const metaEl = document.getElementById('meta');
+    const timerEl = document.getElementById('timer');
+    const barEl = document.getElementById('bar');
+    const statusEl = document.getElementById('status');
+    const generateBtn = document.getElementById('generateBtn');
+    const copyBtn = document.getElementById('copyBtn');
+
+    function normalizeBase32(input) {
+      return input.toUpperCase().replace(/[^A-Z2-7]/g, '');
+    }
+
+    function base32ToBytes(base32) {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+      let bits = 0;
+      let value = 0;
+      const bytes = [];
+
+      for (const ch of base32) {
+        const idx = alphabet.indexOf(ch);
+        if (idx === -1) continue;
+        value = (value << 5) | idx;
+        bits += 5;
+        if (bits >= 8) {
+          bytes.push((value >>> (bits - 8)) & 0xff);
+          bits -= 8;
+        }
+      }
+      return new Uint8Array(bytes);
+    }
+
+    function pad(num, size) {
+      return String(num).padStart(size, '0');
+    }
+
+    async function hmacSha1(keyBytes, messageBytes) {
+      const cryptoKey = await crypto.subtle.importKey(
+        'raw',
+        keyBytes,
+        { name: 'HMAC', hash: 'SHA-1' },
+        false,
+        ['sign']
+      );
+      const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageBytes);
+      return new Uint8Array(signature);
+    }
+
+    async function generateTotp(secret, digits = 6, period = 30, timestamp = Date.now()) {
+      const normalized = normalizeBase32(secret);
+      if (!normalized) throw new Error('シークレットが空です');
+      const keyBytes = base32ToBytes(normalized);
+      if (!keyBytes.length) throw new Error('Base32シークレットを読み取れません');
+
+      const counter = Math.floor(timestamp / 1000 / period);
+      const msg = new ArrayBuffer(8);
+      const view = new DataView(msg);
+      view.setUint32(0, Math.floor(counter / 0x100000000), false);
+      view.setUint32(4, counter >>> 0, false);
+
+      const hash = await hmacSha1(keyBytes, msg);
+      const offset = hash[hash.length - 1] & 0x0f;
+      const binary = ((hash[offset] & 0x7f) << 24) |
+                     ((hash[offset + 1] & 0xff) << 16) |
+                     ((hash[offset + 2] & 0xff) << 8) |
+                     (hash[offset + 3] & 0xff);
+      const code = binary % (10 ** digits);
+      const remaining = period - Math.floor((timestamp / 1000) % period);
+
+      return {
+        token: pad(code, digits),
+        remaining,
+        counter,
+        normalized
+      };
+    }
+
+    async function refresh() {
+      try {
+        const secret = secretEl.value.trim();
+        const digits = Math.max(6, Math.min(10, parseInt(digitsEl.value || '6', 10)));
+        const period = Math.max(15, Math.min(120, parseInt(periodEl.value || '30', 10)));
+
+        if (!secret) {
+          codeEl.textContent = '------';
+          metaEl.textContent = 'シークレットを入力してください';
+          timerEl.textContent = '--';
+          barEl.style.width = '0%';
+          return;
+        }
+
+        const result = await generateTotp(secret, digits, period);
+        codeEl.textContent = result.token;
+        metaEl.textContent = `現在のカウンタ: ${result.counter} / 正規化済みシークレット長: ${result.normalized.length}`;
+        timerEl.textContent = `次の更新まで ${result.remaining} 秒`;
+        barEl.style.width = `${((period - result.remaining) / period) * 100}%`;
+        statusEl.textContent = '';
+      } catch (err) {
+        codeEl.textContent = 'ERROR';
+        metaEl.textContent = '生成に失敗しました';
+        timerEl.textContent = '--';
+        barEl.style.width = '0%';
+        statusEl.textContent = err.message || String(err);
+      }
+    }
+
+    let timerId = null;
+    function startLoop() {
+      if (timerId) clearInterval(timerId);
+      refresh();
+      timerId = setInterval(refresh, 1000);
+    }
+
+    generateBtn.addEventListener('click', startLoop);
+    secretEl.addEventListener('input', () => {
+      statusEl.textContent = '';
+      startLoop();
+    });
+    digitsEl.addEventListener('change', startLoop);
+    periodEl.addEventListener('change', startLoop);
+
+    copyBtn.addEventListener('click', async () => {
+      const code = codeEl.textContent.trim();
+      if (!code || code === '------' || code === 'ERROR') {
+        statusEl.textContent = 'コピーするコードがありません';
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(code);
+        statusEl.textContent = 'コードをコピーしました';
+      } catch {
+        statusEl.textContent = 'クリップボードにアクセスできませんでした';
+      }
+    });
+
+    startLoop();
+  </script>
+</body>
+</html>
