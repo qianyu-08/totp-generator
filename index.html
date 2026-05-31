@@ -8,416 +8,231 @@
     :root {
       color-scheme: dark;
       --bg: #0b1020;
-      --bg2: #0f1730;
-      --panel: rgba(18, 26, 51, 0.88);
-      --panel-strong: #121a33;
-      --line: rgba(148, 163, 184, 0.18);
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --accent: #7c3aed;
-      --accent2: #22c55e;
-      --danger: #ef4444;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-      --radius: 24px;
+      --panel: #121a33;
+      --panel-2: #17213f;
+      --text: #e8eefc;
+      --muted: #97a6c6;
+      --accent: #7aa2ff;
+      --danger: #ff7a90;
+      --border: rgba(255,255,255,.10);
     }
-
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
       min-height: 100vh;
-      background:
-        radial-gradient(circle at top left, rgba(124, 58, 237, 0.28), transparent 32%),
-        radial-gradient(circle at top right, rgba(34, 197, 94, 0.18), transparent 28%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(1200px 800px at 20% 0%, #182447 0%, var(--bg) 50%, #070a14 100%);
+      color: var(--text);
       display: grid;
       place-items: center;
       padding: 24px;
     }
-
-    .app {
-      width: min(980px, 100%);
-      display: grid;
-      gap: 18px;
-      grid-template-columns: 1.1fr 0.9fr;
-    }
-
-    .hero, .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-    }
-
-    .hero {
-      padding: 28px;
+    .card {
+      width: min(760px, 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
       overflow: hidden;
-      position: relative;
     }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto -120px -120px auto;
-      width: 280px;
-      height: 280px;
-      background: radial-gradient(circle, rgba(124, 58, 237, 0.24), transparent 70%);
-      pointer-events: none;
+    header {
+      padding: 24px 24px 0;
     }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.03);
-    }
-
     h1 {
-      margin: 16px 0 10px;
-      font-size: clamp(32px, 5vw, 52px);
-      line-height: 1.02;
-      letter-spacing: -0.04em;
-    }
-
-    .lead {
       margin: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.8;
-      max-width: 62ch;
+      font-size: clamp(24px, 4vw, 36px);
+      letter-spacing: .02em;
     }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    .stat {
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-    }
-
-    .stat .label { color: var(--muted); font-size: 12px; }
-    .stat .value { margin-top: 8px; font-size: 20px; font-weight: 700; }
-
-    .panel {
-      padding: 22px;
-    }
-
-    .grid {
-      display: grid;
-      gap: 14px;
-    }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    label {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    input, select, button, textarea {
-      font: inherit;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 14px 15px;
-      background: rgba(8, 12, 24, 0.9);
-      color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      outline: none;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: rgba(124, 58, 237, 0.65);
-      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.16);
-    }
-
-    .row {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    button {
-      border: 0;
-      border-radius: 16px;
-      padding: 13px 16px;
-      cursor: pointer;
-      transition: transform .15s ease, opacity .15s ease, background .15s ease;
-      color: white;
-      font-weight: 700;
-    }
-
-    button:hover { transform: translateY(-1px); }
-    button:active { transform: translateY(0); opacity: .9; }
-
-    .primary { background: linear-gradient(135deg, var(--accent), #4f46e5); }
-    .good { background: linear-gradient(135deg, #16a34a, var(--accent2)); }
-    .ghost {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--line);
-      color: var(--text);
-    }
-
-    .code-card {
-      margin-top: 16px;
-      padding: 20px;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(8, 12, 24, 0.92));
-    }
-
-    .otp {
-      font-size: clamp(34px, 7vw, 58px);
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      text-align: center;
-      margin: 4px 0 10px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 6px;
-      flex-wrap: wrap;
-    }
-
-    .progress-wrap {
-      margin-top: 16px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .bar {
-      height: 12px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid var(--line);
-    }
-
-    .bar > div {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      transition: width .25s linear;
-    }
-
-    .small {
-      font-size: 12px;
+    p {
+      margin: 8px 0 0;
       color: var(--muted);
       line-height: 1.6;
     }
-
-    .toast {
-      min-height: 20px;
+    .content {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      padding: 24px;
+    }
+    @media (max-width: 720px) {
+      .content { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    input, button {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(8,12,24,.65);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font: inherit;
+      outline: none;
+    }
+    input:focus {
+      border-color: rgba(122,162,255,.65);
+      box-shadow: 0 0 0 4px rgba(122,162,255,.14);
+    }
+    .row {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    button {
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(122,162,255,.22), rgba(122,162,255,.10));
+      transition: transform .08s ease, border-color .15s ease;
+    }
+    button:hover { border-color: rgba(122,162,255,.55); }
+    button:active { transform: translateY(1px); }
+    .primary {
+      background: linear-gradient(180deg, rgba(122,162,255,.35), rgba(122,162,255,.16));
+    }
+    .code-box {
+      text-align: center;
+      padding: 24px 16px;
+      background: linear-gradient(180deg, rgba(122,162,255,.12), rgba(255,255,255,.02));
+      border: 1px solid rgba(122,162,255,.25);
+      border-radius: 20px;
+    }
+    .code {
+      font-size: clamp(36px, 8vw, 58px);
+      font-weight: 800;
+      letter-spacing: .18em;
+      margin: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .meta {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .bar-wrap {
+      margin-top: 14px;
+      height: 10px;
+      background: rgba(255,255,255,.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #7aa2ff, #8fe3ff);
+      transition: width .2s linear;
+    }
+    .status {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      min-height: 1.4em;
+    }
+    .small {
       font-size: 13px;
-      color: #cbd5e1;
-      margin-top: 8px;
+      color: var(--muted);
     }
-
-    .danger {
-      color: #fecaca;
-    }
-
-    @media (max-width: 880px) {
-      .app { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 560px) {
-      body { padding: 14px; }
-      .hero, .panel { padding: 18px; border-radius: 20px; }
-      .row, .stats { grid-template-columns: 1fr; }
-      .otp { letter-spacing: 0.12em; }
+    code.inline {
+      padding: .15rem .4rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
     }
   </style>
 </head>
 <body>
-  <main class="app">
-    <section class="hero">
-      <div class="eyebrow">TOTP / 2FA generator</div>
-      <h1>ワンタイムパスワードを、<br>ブラウザだけで生成する。</h1>
-      <p class="lead">
-        共有シークレットを入れると、6桁のTOTPコードを自動更新します。
-        ローカルで動くので、サーバーが勝手にログを見るみたいな面倒は起きません。
-      </p>
+  <main class="card">
+    <header>
+      <h1>TOTPジェネレーター</h1>
+      <p>Base32の共有シークレットから、30秒ごとに変わる6桁コードを生成します。人間が紙に書いた秘密情報を、さらにブラウザに入れるという微妙な儀式つきです。</p>
+    </header>
 
-      <div class="stats">
-        <div class="stat">
-          <div class="label">更新間隔</div>
-          <div class="value"><span id="periodValue">30</span> 秒</div>
+    <section class="content">
+      <div class="panel">
+        <div class="row">
+          <div>
+            <label for="secret">Base32シークレット</label>
+            <input id="secret" type="text" placeholder="例: JBSWY3DPEHPK3PXP" autocomplete="off" spellcheck="false" />
+            <div class="small" style="margin-top:8px;">空白やハイフンは自動で無視します。</div>
+          </div>
         </div>
-        <div class="stat">
-          <div class="label">桁数</div>
-          <div class="value">6 桁</div>
+
+        <div class="grid2">
+          <div>
+            <label for="digits">桁数</label>
+            <input id="digits" type="number" min="6" max="10" value="6" />
+          </div>
+          <div>
+            <label for="period">更新間隔(秒)</label>
+            <input id="period" type="number" min="15" max="120" value="30" />
+          </div>
         </div>
-        <div class="stat">
-          <div class="label">アルゴリズム</div>
-          <div class="value">HMAC-SHA1</div>
+
+        <div class="actions" style="margin-top:14px;">
+          <button class="primary" id="generateBtn">コードを更新</button>
+          <button id="copyBtn">コードをコピー</button>
         </div>
+
+        <div class="status" id="status"></div>
       </div>
 
-      <div class="code-card">
-        <div class="small">現在のコード</div>
-        <div class="otp" id="otp">------</div>
-        <div class="meta">
-          <span id="accountLabel">Account: -</span>
-          <span id="issuerLabel">Issuer: -</span>
-        </div>
-        <div class="progress-wrap">
-          <div class="progress-label">
-            <span>次の更新まで</span>
-            <span id="countdown">30s</span>
+      <div class="panel">
+        <div class="code-box">
+          <p class="code" id="code">------</p>
+          <div class="meta" id="meta">シークレットを入力してください</div>
+          <div class="bar-wrap" aria-hidden="true">
+            <div class="bar" id="bar"></div>
           </div>
-          <div class="bar"><div id="bar"></div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="grid">
-        <div class="field">
-          <label for="secret">Base32 シークレット</label>
-          <input id="secret" type="text" placeholder="JBSWY3DPEHPK3PXP" autocomplete="off" spellcheck="false" />
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="issuer">Issuer</label>
-            <input id="issuer" type="text" placeholder="MyApp" autocomplete="off" spellcheck="false" />
-          </div>
-          <div class="field">
-            <label for="account">Account</label>
-            <input id="account" type="text" placeholder="user@example.com" autocomplete="off" spellcheck="false" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="digits">Digits</label>
-            <select id="digits">
-              <option value="6" selected>6</option>
-              <option value="8">8</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="period">Period (秒)</label>
-            <input id="period" type="number" min="10" max="120" step="1" value="30" />
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="primary" id="generateBtn">今すぐ更新</button>
-          <button class="good" id="copyBtn">コードをコピー</button>
-          <button class="ghost" id="saveBtn">保存</button>
-          <button class="ghost" id="clearBtn">消去</button>
-        </div>
-
-        <div class="field">
-          <label for="otpauth">otpauth:// URI</label>
-          <textarea id="otpauth" rows="3" placeholder="ここに自動生成されます" readonly></textarea>
-        </div>
-
-        <div class="toast" id="toast"></div>
-        <div class="small">
-          使い方は単純です。シークレットを入れて、保存するだけ。人類が何度も同じ秘密を別サービスへ配布してきた結果、こういう小物が必要になりました。
+          <div class="meta" id="timer">--</div>
         </div>
       </div>
     </section>
   </main>
 
   <script>
-    const $ = (id) => document.getElementById(id);
-
-    const els = {
-      secret: $('secret'),
-      issuer: $('issuer'),
-      account: $('account'),
-      digits: $('digits'),
-      period: $('period'),
-      otp: $('otp'),
-      countdown: $('countdown'),
-      bar: $('bar'),
-      accountLabel: $('accountLabel'),
-      issuerLabel: $('issuerLabel'),
-      periodValue: $('periodValue'),
-      otpauth: $('otpauth'),
-      toast: $('toast'),
-      generateBtn: $('generateBtn'),
-      copyBtn: $('copyBtn'),
-      saveBtn: $('saveBtn'),
-      clearBtn: $('clearBtn')
-    };
-
-    const STORAGE_KEY = 'totp-generator-state-v1';
-    let timer = null;
-
-    function showToast(message, isError = false) {
-      els.toast.textContent = message;
-      els.toast.className = 'toast' + (isError ? ' danger' : '');
-      clearTimeout(showToast._t);
-      showToast._t = setTimeout(() => {
-        els.toast.textContent = '';
-        els.toast.className = 'toast';
-      }, 2200);
-    }
+    const secretEl = document.getElementById('secret');
+    const digitsEl = document.getElementById('digits');
+    const periodEl = document.getElementById('period');
+    const codeEl = document.getElementById('code');
+    const metaEl = document.getElementById('meta');
+    const timerEl = document.getElementById('timer');
+    const barEl = document.getElementById('bar');
+    const statusEl = document.getElementById('status');
+    const generateBtn = document.getElementById('generateBtn');
+    const copyBtn = document.getElementById('copyBtn');
 
     function normalizeBase32(input) {
-      return (input || '')
-        .toUpperCase()
-        .replace(/\s+/g, '')
-        .replace(/=+$/g, '');
+      return input.toUpperCase().replace(/[^A-Z2-7]/g, '');
     }
 
     function base32ToBytes(base32) {
       const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-      const cleaned = normalizeBase32(base32);
-      if (!cleaned) throw new Error('シークレットが空です');
-
       let bits = 0;
       let value = 0;
       const bytes = [];
 
-      for (const char of cleaned) {
-        const idx = alphabet.indexOf(char);
-        if (idx === -1) throw new Error(`Base32に使えない文字があります: ${char}`);
+      for (const ch of base32) {
+        const idx = alphabet.indexOf(ch);
+        if (idx === -1) continue;
         value = (value << 5) | idx;
         bits += 5;
         if (bits >= 8) {
@@ -428,166 +243,109 @@
       return new Uint8Array(bytes);
     }
 
-    function intToBytes(counter) {
-      const buf = new ArrayBuffer(8);
-      const view = new DataView(buf);
-      const high = Math.floor(counter / 2 ** 32);
-      const low = counter >>> 0;
-      view.setUint32(0, high);
-      view.setUint32(4, low);
-      return new Uint8Array(buf);
+    function pad(num, size) {
+      return String(num).padStart(size, '0');
     }
 
     async function hmacSha1(keyBytes, messageBytes) {
-      const key = await crypto.subtle.importKey(
+      const cryptoKey = await crypto.subtle.importKey(
         'raw',
         keyBytes,
         { name: 'HMAC', hash: 'SHA-1' },
         false,
         ['sign']
       );
-      const signature = await crypto.subtle.sign('HMAC', key, messageBytes);
+      const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageBytes);
       return new Uint8Array(signature);
     }
 
-    function truncate(hmac) {
-      const offset = hmac[hmac.length - 1] & 0x0f;
-      return (
-        ((hmac[offset] & 0x7f) << 24) |
-        ((hmac[offset + 1] & 0xff) << 16) |
-        ((hmac[offset + 2] & 0xff) << 8) |
-        (hmac[offset + 3] & 0xff)
-      ) >>> 0;
-    }
+    async function generateTotp(secret, digits = 6, period = 30, timestamp = Date.now()) {
+      const normalized = normalizeBase32(secret);
+      if (!normalized) throw new Error('シークレットが空です');
+      const keyBytes = base32ToBytes(normalized);
+      if (!keyBytes.length) throw new Error('Base32シークレットを読み取れません');
 
-    function padDigits(value, digits) {
-      return String(value).padStart(digits, '0');
-    }
+      const counter = Math.floor(timestamp / 1000 / period);
+      const msg = new ArrayBuffer(8);
+      const view = new DataView(msg);
+      view.setUint32(0, Math.floor(counter / 0x100000000), false);
+      view.setUint32(4, counter >>> 0, false);
 
-    function buildOtpAuthUri({ issuer, account, secret, digits, period }) {
-      const label = encodeURIComponent([issuer, account].filter(Boolean).join(':') || account || issuer || 'TOTP');
-      const params = new URLSearchParams();
-      if (secret) params.set('secret', normalizeBase32(secret));
-      if (issuer) params.set('issuer', issuer);
-      if (digits) params.set('digits', String(digits));
-      if (period) params.set('period', String(period));
-      params.set('algorithm', 'SHA1');
-      return `otpauth://totp/${label}?${params.toString()}`;
-    }
+      const hash = await hmacSha1(keyBytes, msg);
+      const offset = hash[hash.length - 1] & 0x0f;
+      const binary = ((hash[offset] & 0x7f) << 24) |
+                     ((hash[offset + 1] & 0xff) << 16) |
+                     ((hash[offset + 2] & 0xff) << 8) |
+                     (hash[offset + 3] & 0xff);
+      const code = binary % (10 ** digits);
+      const remaining = period - Math.floor((timestamp / 1000) % period);
 
-    async function generateTotp() {
-      const secret = normalizeBase32(els.secret.value);
-      const period = Math.max(10, Number(els.period.value || 30));
-      const digits = Number(els.digits.value || 6);
-      const now = Math.floor(Date.now() / 1000);
-      const counter = Math.floor(now / period);
-      const remaining = period - (now % period);
-
-      els.periodValue.textContent = String(period);
-      els.countdown.textContent = `${remaining}s`;
-      els.bar.style.width = `${((period - remaining) / period) * 100}%`;
-      els.accountLabel.textContent = `Account: ${els.account.value || '-'}`;
-      els.issuerLabel.textContent = `Issuer: ${els.issuer.value || '-'}`;
-      els.otpauth.value = buildOtpAuthUri({
-        issuer: els.issuer.value.trim(),
-        account: els.account.value.trim(),
-        secret,
-        digits,
-        period
-      });
-
-      if (!secret) {
-        els.otp.textContent = '------';
-        return;
-      }
-
-      const keyBytes = base32ToBytes(secret);
-      const msg = intToBytes(counter);
-      const hmac = await hmacSha1(keyBytes, msg);
-      const bin = truncate(hmac);
-      const otp = bin % (10 ** digits);
-      els.otp.textContent = padDigits(otp, digits);
-    }
-
-    function saveState() {
-      const state = {
-        secret: els.secret.value,
-        issuer: els.issuer.value,
-        account: els.account.value,
-        digits: els.digits.value,
-        period: els.period.value
+      return {
+        token: pad(code, digits),
+        remaining,
+        counter,
+        normalized
       };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      showToast('保存しました');
     }
 
-    function loadState() {
+    async function refresh() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const state = JSON.parse(raw);
-        els.secret.value = state.secret || '';
-        els.issuer.value = state.issuer || '';
-        els.account.value = state.account || '';
-        els.digits.value = state.digits || '6';
-        els.period.value = state.period || '30';
-      } catch {
-        showToast('保存データの読み込みに失敗しました', true);
-      }
-    }
+        const secret = secretEl.value.trim();
+        const digits = Math.max(6, Math.min(10, parseInt(digitsEl.value || '6', 10)));
+        const period = Math.max(15, Math.min(120, parseInt(periodEl.value || '30', 10)));
 
-    function clearState() {
-      localStorage.removeItem(STORAGE_KEY);
-      els.secret.value = '';
-      els.issuer.value = '';
-      els.account.value = '';
-      els.digits.value = '6';
-      els.period.value = '30';
-      els.otp.textContent = '------';
-      els.otpauth.value = '';
-      showToast('消去しました');
-    }
+        if (!secret) {
+          codeEl.textContent = '------';
+          metaEl.textContent = 'シークレットを入力してください';
+          timerEl.textContent = '--';
+          barEl.style.width = '0%';
+          return;
+        }
 
-    async function tick() {
-      try {
-        await generateTotp();
+        const result = await generateTotp(secret, digits, period);
+        codeEl.textContent = result.token;
+        metaEl.textContent = `現在のカウンタ: ${result.counter} / 正規化済みシークレット長: ${result.normalized.length}`;
+        timerEl.textContent = `次の更新まで ${result.remaining} 秒`;
+        barEl.style.width = `${((period - result.remaining) / period) * 100}%`;
+        statusEl.textContent = '';
       } catch (err) {
-        els.otp.textContent = 'ERROR';
-        showToast(err.message || '生成に失敗しました', true);
+        codeEl.textContent = 'ERROR';
+        metaEl.textContent = '生成に失敗しました';
+        timerEl.textContent = '--';
+        barEl.style.width = '0%';
+        statusEl.textContent = err.message || String(err);
       }
     }
 
-    async function copyCode() {
-      const code = els.otp.textContent.trim();
+    let timerId = null;
+    function startLoop() {
+      if (timerId) clearInterval(timerId);
+      refresh();
+      timerId = setInterval(refresh, 1000);
+    }
+
+    generateBtn.addEventListener('click', startLoop);
+    secretEl.addEventListener('input', () => {
+      statusEl.textContent = '';
+      startLoop();
+    });
+    digitsEl.addEventListener('change', startLoop);
+    periodEl.addEventListener('change', startLoop);
+
+    copyBtn.addEventListener('click', async () => {
+      const code = codeEl.textContent.trim();
       if (!code || code === '------' || code === 'ERROR') {
-        showToast('コピーするコードがありません', true);
+        statusEl.textContent = 'コピーするコードがありません';
         return;
       }
       try {
         await navigator.clipboard.writeText(code);
-        showToast('コードをコピーしました');
+        statusEl.textContent = 'コードをコピーしました';
       } catch {
-        showToast('クリップボードへコピーできませんでした', true);
+        statusEl.textContent = 'クリップボードにアクセスできませんでした';
       }
-    }
-
-    function startLoop() {
-      clearInterval(timer);
-      tick();
-      timer = setInterval(tick, 1000);
-    }
-
-    els.generateBtn.addEventListener('click', tick);
-    els.copyBtn.addEventListener('click', copyCode);
-    els.saveBtn.addEventListener('click', saveState);
-    els.clearBtn.addEventListener('click', clearState);
-
-    [els.secret, els.issuer, els.account, els.digits, els.period].forEach((el) => {
-      el.addEventListener('input', startLoop);
-      el.addEventListener('change', startLoop);
     });
 
-    loadState();
     startLoop();
   </script>
 </body>
